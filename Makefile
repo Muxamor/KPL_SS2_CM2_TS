@@ -38,7 +38,6 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_i2c.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_pwr.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.c \
-Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c \
