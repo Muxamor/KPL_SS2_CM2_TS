@@ -71,11 +71,12 @@ void SystemClock_Config(void){
 
 	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 
-  	//Enable HSE
-  	LL_RCC_HSE_EnableBypass();
-  	LL_RCC_HSE_Enable();
-   	// Wait till HSE is ready
-  	while(LL_RCC_HSE_IsReady() != 1);
+  //Enable HSE
+  LL_RCC_HSE_EnableBypass();
+  LL_RCC_HSE_Enable();
+  // Wait till HSE is ready
+  while(LL_RCC_HSE_IsReady() != 1 );
+
 
 	/*
 	//Enable HSI
@@ -86,7 +87,7 @@ void SystemClock_Config(void){
     */
 
 	// Enable LSI
-	LL_RCC_LSI_Enable();
+  LL_RCC_LSI_Enable();
 
 	/* Wait till LSI is ready */
 	while(LL_RCC_LSI_IsReady() != 1);
@@ -117,11 +118,6 @@ void SystemClock_Config(void){
 	/* SysTick_IRQn interrupt configuration */
 	NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),15, 0));
 }
-
-
-
-
-
 
 
 void USART1_Init(void){
@@ -168,7 +164,7 @@ void USART1_Init(void){
   	LL_USART_ConfigAsyncMode(USART1); 
   	LL_USART_Enable(USART1);
 
-    /* Configure pins RE and TE to control transfer data throughISO3086DW, PA11=DE PA12=RE */
+   /* Configure pins RE and TE to control transfer data throughISO3086DW, PA11=DE PA12=RE */
     GPIO_InitStruct.Pin = LL_GPIO_PIN_11|LL_GPIO_PIN_12;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
     GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
@@ -177,9 +173,14 @@ void USART1_Init(void){
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     /**/
     //RE -Enable when low
-    //TE - Enbale when high
-    LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11); //Enable receive data
-    LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12); //Enable transmit data
+    //TE - Disable when high
+    LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11); //Disable transmit data
+    LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_12); //Enable receive data
+
+    /*For enable/desible transmit throught USART1:                  */
+    //Enable_transmit_USART1()  //Enable transmit data
+    //Disable_transmit_USART1() //Disable transmit data
+
 }
 
 

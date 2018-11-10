@@ -50,7 +50,9 @@ void IWDG_Init(void);
 #endif
 
 
-
+/*For enable/desible transmit throught USART1:                  */
+#define Enable_transmit_USART1()  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11) //Enable transmit data
+#define Disable_transmit_USART1() LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11) //Disable transmit data
 
 
 #ifdef __cplusplus
