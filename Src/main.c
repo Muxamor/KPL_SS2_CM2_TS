@@ -22,7 +22,7 @@ int main(void){
 	SystemClock_Config(); //Setup system clock at 80 MHz
 	USART1_Init();
 	I2C1_Init();
-	IWDG_Init();
+//	IWDG_Init();
 
 	//Default setup board and cross borad Address IC = 0x20, cross board.
 	//Address IC TCA9554 = 0x20
@@ -32,6 +32,7 @@ int main(void){
 	I2C_write_reg_TCA9554(I2C1 , 0x26, 0x03, 0x00); // Set pin as output, Address IC = 0x26
 	I2C_write_reg_TCA9554(I2C1 , 0x26, 0x01, 0xFF); // OFF all analog module in block, Address IC = 0x26
 	////////////////////////////////////////
+
 
 	//Default setup temperature senser TMP75
 	uint8_t add_TMP75 = 0x49;
