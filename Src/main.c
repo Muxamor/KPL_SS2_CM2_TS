@@ -22,7 +22,7 @@ int main(void){
 	SystemClock_Config(); //Setup system clock at 80 MHz
 	USART1_Init();
 	I2C1_Init();
-//	IWDG_Init();
+	IWDG_Init();
 
 	//Default setup board and cross borad Address IC = 0x20, cross board.
 	//Address IC TCA9554 = 0x20
@@ -47,29 +47,30 @@ int main(void){
 		I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x03, (0x190 << 4) );
 	}
 
-	uint32_t get_data_usart = 0;
+	uint16_t data_receive[4] = {0};
 	uint8_t number_command = 0;
 	uint16_t answer_array[4] = {0};
 	ErrorStatus ret1, ret2;
 
 	while(1){
 
-		get_data_usart = Data_receive_UART_9B(4, USART1);
 
-		if( (get_data_usart>>27) == 0x00000000 ){ //Got command for control module2
+		ret1 = Data_receive_UART_9B (data_receive, 4, USART1);
+		LL_IWDG_ReloadCounter(IWDG);
 
-			number_command = ((uint8_t)(get_data_usart>>24)) & 0x07;
+		if( (ret1 == SUCCESS) && ( data_receive[0] == 0x0106 || data_receive[0] == 0x0107) ){
+
+			number_command = (uint8_t)data_receive[0];
 
 			switch(number_command){
 
 				case 0x06:
+					if( ((uint8_t)data_receive[1]) == 0x00 ){
 
-					if( ((uint8_t)(get_data_usart>>16)) == 0x00 ){
+						ret1 = I2C_write_reg_TCA9554(I2C1, 0x20, 0x01, (~ ((uint8_t)data_receive[4]) ) ); // ON/OFF analog module in block1, Address IC = 0x20
+						ret2 = I2C_write_reg_TCA9554(I2C1, 0x26, 0x01, (~ ((uint8_t)data_receive[3]) ) ); // ON/OFF analog module in block1, Address IC = 0x26
 
-						ret1 = I2C_write_reg_TCA9554(I2C1, 0x20, 0x01, (~((uint8_t)get_data_usart) ) ); // ON/OFF analog module in block1, Address IC = 0x20
-						ret2 = I2C_write_reg_TCA9554(I2C1, 0x26, 0x01, (~( (uint8_t)(get_data_usart>>8) ) ) ); // ON/OFF analog module in block1, Address IC = 0x26
-
-						answer_array[0] = get_data_usart>>24;
+						answer_array[0] = data_receive[0] & 0x00FF;
 
 						if(ret1==ERROR || ret2==ERROR){
 							answer_array[1] = 0x0000;
@@ -79,7 +80,7 @@ int main(void){
 						answer_array[2] = 0x0000;
 						answer_array[3] = 0x0000;
 
-					}else if(((uint8_t)(get_data_usart>>16)) == 0x80 ){
+					}else if( ((uint8_t)data_receive[1]) == 0x80 ){
 						//TODO Answer
 					}
 					break;
@@ -92,12 +93,14 @@ int main(void){
 					break;
 			}
 
+			LL_IWDG_ReloadCounter(IWDG);
 			Data_transmite_UART_9B(answer_array, 4, USART1);
 		}
 
+
+
+
 	}
-
-
 
 }
 
