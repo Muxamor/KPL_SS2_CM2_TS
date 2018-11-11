@@ -65,12 +65,12 @@ int main(void){
 			switch(number_command){
 
 				case 0x06:
+					answer_array[0] = data_receive[0] & 0x00FF;
+
 					if( ((uint8_t)data_receive[1]) == 0x00 ){
 
 						ret1 = I2C_write_reg_TCA9554(I2C1, 0x20, 0x01, (~ ((uint8_t)data_receive[4]) ) ); // ON/OFF analog module in block1, Address IC = 0x20
 						ret2 = I2C_write_reg_TCA9554(I2C1, 0x26, 0x01, (~ ((uint8_t)data_receive[3]) ) ); // ON/OFF analog module in block1, Address IC = 0x26
-
-						answer_array[0] = data_receive[0] & 0x00FF;
 
 						if(ret1==ERROR || ret2==ERROR){
 							answer_array[1] = 0x0000;
@@ -82,10 +82,17 @@ int main(void){
 
 					}else if( ((uint8_t)data_receive[1]) == 0x80 ){
 						//TODO Answer
+						answer_array[1] = 0x0000;
+						answer_array[2] = 0x0000;
+						answer_array[3] = 0x0000;
 					}
 					break;
 
 				case 0x07:
+					answer_array[0] = data_receive[0] & 0x00FF;
+					answer_array[1] = 0x0001;
+					answer_array[2] = 0x0000;
+					answer_array[3] = 0x0000;
 					//TODO Control I2C temp sensor
 					break;
 
