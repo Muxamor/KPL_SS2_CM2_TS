@@ -8,10 +8,6 @@
 #include  <stdio.h>
 
 
-
-/****************************TODO*************************
-
-**********************************************************/
 //LL_mDelay(1);
 //LL_RCC_ClocksTypeDef check_RCC_Clocks,  *CHECK_RCC_CLOCKS=&check_RCC_Clocks; // Only for check setup clock. Not need use in release
 
@@ -48,8 +44,8 @@ int main(void){
 	}
 
 	uint16_t data_receive[4] = {0};
-	uint8_t number_command = 0;
 	uint16_t answer_array[4] = {0};
+	uint8_t number_command = 0;
 	ErrorStatus ret1, ret2;
 
 	while(1){
@@ -62,10 +58,14 @@ int main(void){
 
 			number_command = (uint8_t)data_receive[0];
 
+			answer_array[0] = data_receive[0] & 0x00FF;
+			answer_array[1] = 0x0001;
+			answer_array[2] = 0x0000;
+			answer_array[3] = 0x0000;
+
 			switch(number_command){
 
 				case 0x06:
-					answer_array[0] = data_receive[0] & 0x00FF;
 
 					if( ((uint8_t)data_receive[1]) == 0x00 ){
 
@@ -74,25 +74,15 @@ int main(void){
 
 						if(ret1==ERROR || ret2==ERROR){
 							answer_array[1] = 0x0000;
-						}else{
-							answer_array[1] = 0x0001;
 						}
-						answer_array[2] = 0x0000;
-						answer_array[3] = 0x0000;
 
 					}else if( ((uint8_t)data_receive[1]) == 0x80 ){
 						//TODO Answer
 						answer_array[1] = 0x0000;
-						answer_array[2] = 0x0000;
-						answer_array[3] = 0x0000;
 					}
 					break;
 
 				case 0x07:
-					answer_array[0] = data_receive[0] & 0x00FF;
-					answer_array[1] = 0x0001;
-					answer_array[2] = 0x0000;
-					answer_array[3] = 0x0000;
 					//TODO Control I2C temp sensor
 					break;
 
