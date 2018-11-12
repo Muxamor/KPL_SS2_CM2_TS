@@ -69,8 +69,8 @@ int main(void){
 
 					if( ((uint8_t)data_receive[1]) == 0x00 ){
 
-						ret1 = I2C_write_reg_TCA9554(I2C1, 0x20, 0x01, (~ ((uint8_t)data_receive[4]) ) ); // ON/OFF analog module in block1, Address IC = 0x20
-						ret2 = I2C_write_reg_TCA9554(I2C1, 0x26, 0x01, (~ ((uint8_t)data_receive[3]) ) ); // ON/OFF analog module in block1, Address IC = 0x26
+						ret1 = I2C_write_reg_TCA9554(I2C1, 0x20, 0x01, (~ ((uint8_t)data_receive[3]) ) ); // ON/OFF analog module in block1, Address IC = 0x20
+						ret2 = I2C_write_reg_TCA9554(I2C1, 0x26, 0x01, (~ ((uint8_t)data_receive[2]) ) ); // ON/OFF analog module in block1, Address IC = 0x26
 
 						if(ret1==ERROR || ret2==ERROR){
 							answer_array[1] = 0x0000;
