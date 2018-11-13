@@ -71,11 +71,11 @@ void SystemClock_Config(void){
 
 	LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
 
-  //Enable HSE
-  LL_RCC_HSE_EnableBypass();
-  LL_RCC_HSE_Enable();
-  // Wait till HSE is ready
-  while(LL_RCC_HSE_IsReady() != 1 );
+	//Enable HSE
+	LL_RCC_HSE_EnableBypass();
+	LL_RCC_HSE_Enable();
+	// Wait till HSE is ready
+	while(LL_RCC_HSE_IsReady() != 1 );
 
 
 	/*
@@ -87,7 +87,7 @@ void SystemClock_Config(void){
     */
 
 	// Enable LSI
-  LL_RCC_LSI_Enable();
+  	LL_RCC_LSI_Enable();
 
 	/* Wait till LSI is ready */
 	while(LL_RCC_LSI_IsReady() != 1);
@@ -135,7 +135,7 @@ void USART1_Init(void){
   	*/
   	GPIO_InitStruct.Pin = LL_GPIO_PIN_9|LL_GPIO_PIN_10;
   	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+  	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;//LL_GPIO_SPEED_FREQ_VERY_HIGH;
   	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   	GPIO_InitStruct.Alternate = LL_GPIO_AF_7;
@@ -161,13 +161,14 @@ void USART1_Init(void){
   	LL_USART_SetRXPinLevel(USART1, LL_USART_RXPIN_LEVEL_INVERTED);
   	LL_USART_SetTXPinLevel(USART1, LL_USART_TXPIN_LEVEL_INVERTED );
 
+  	LL_USART_EnableOverrunDetect(USART1);
   	LL_USART_ConfigAsyncMode(USART1); 
   	LL_USART_Enable(USART1);
 
    /* Configure pins RE and TE to control transfer data throughISO3086DW, PA11=DE PA12=RE */
     GPIO_InitStruct.Pin = LL_GPIO_PIN_11|LL_GPIO_PIN_12;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_MEDIUM;
     GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -205,7 +206,7 @@ void I2C1_Init(void){
   	*/
   	GPIO_InitStruct.Pin = LL_GPIO_PIN_6|LL_GPIO_PIN_7;
   	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+  	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;//LL_GPIO_SPEED_FREQ_VERY_HIGH;
   	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
   	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   	GPIO_InitStruct.Alternate = LL_GPIO_AF_4;
