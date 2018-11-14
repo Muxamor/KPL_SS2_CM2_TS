@@ -21,7 +21,7 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 	//Enable transmit data
 	//Enable_transmit_USART1();
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11); //Enable transmit data
-	__NOP();
+	LL_mDelay(1);
 
 	if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
 		LL_USART_ClearFlag_ORE(USARTx);
@@ -90,10 +90,10 @@ ErrorStatus  Data_receive_UART_9B (uint16_t receive_data[] , uint8_t size_rec_da
 	uint32_t counter=0;
 	uint8_t i=0;
 
-	if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
+	/*if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
 		LL_USART_ClearFlag_ORE(USARTx);
 		LL_USART_ReceiveData9(USARTx);
-	}
+	}*/
 
 	for( i=0; i<size_rec_data; i++ ){
 		counter=0;
@@ -101,6 +101,7 @@ ErrorStatus  Data_receive_UART_9B (uint16_t receive_data[] , uint8_t size_rec_da
 			counter++;
 			if(counter == 100000){
 				Error_Handler();
+				LL_USART_ClearFlag_ORE(USARTx);
 				return ERROR;
 			}
 		}
