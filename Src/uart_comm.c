@@ -21,8 +21,14 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 	//Enable transmit data
 	//Enable_transmit_USART1();
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11); //Enable transmit data
-	LL_mDelay(1);
-
+	__NOP();
+	__NOP();
+	__NOP();
+	__NOP();
+	__NOP();
+	__NOP();
+	
+	
 	if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
 		LL_USART_ClearFlag_ORE(USARTx);
 	}
@@ -34,7 +40,7 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 	counter=0;
 	while( LL_USART_IsActiveFlag_TXE(USARTx) == RESET ){
 		counter++;
-		if(counter==1000000){
+		if(counter==40000){
 			Error_Handler();
 			return ERROR;
 		}
@@ -45,7 +51,7 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 		counter=0;
 		while( LL_USART_IsActiveFlag_TC( USARTx ) == RESET ){
 			counter++;
-			if(counter==1000000){//150ms
+			if(counter==40000){//150ms
 				Error_Handler();
 				Disable_transmit_USART1();
 				return ERROR;
@@ -64,7 +70,7 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 	counter=0;
 	while( LL_USART_IsActiveFlag_TC( USARTx ) == RESET ){
 		counter++;
-		if(counter==1000000){//150ms
+		if(counter==40000){//150ms
 			Error_Handler();
 			Disable_transmit_USART1();
 			return ERROR;

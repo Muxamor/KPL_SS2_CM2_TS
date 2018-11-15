@@ -29,11 +29,11 @@ ErrorStatus I2C_write_reg_TCA9554(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 	SlaveAddr_IC = SlaveAddr_IC<<1;
 
 	uint32_t counter = 0;
-	while(LL_I2C_IsActiveFlag_BUSY(I2Cx)==SET){
+	while(LL_I2C_IsActiveFlag_BUSY(I2Cx) == SET){
 		counter++;
-		if(counter==300000){//
+		if( counter == 25000 ) {//
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -45,10 +45,10 @@ ErrorStatus I2C_write_reg_TCA9554(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 	counter=0;
 	while(LL_I2C_IsActiveFlag_TXE(I2Cx)==RESET){
 		counter++;
-		if(counter==300000){
+		if( counter == 25000 ){
 			LL_I2C_ClearFlag_TXE(I2Cx);
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -59,9 +59,6 @@ ErrorStatus I2C_write_reg_TCA9554(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 
 	LL_I2C_ClearFlag_STOP(I2Cx);
 	return SUCCESS;
-
-	exit_error:
-		return ERROR;
 }
 
 
@@ -72,9 +69,9 @@ ErrorStatus I2C_write_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, u
 	uint32_t counter = 0;
 	while(LL_I2C_IsActiveFlag_BUSY(I2Cx)==SET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000 ){//aproximate 150ms
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -86,10 +83,10 @@ ErrorStatus I2C_write_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, u
 	counter=0;
 	while(LL_I2C_IsActiveFlag_TXE(I2Cx)==RESET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000 ){//aproximate 150ms
 			LL_I2C_ClearFlag_TXE(I2Cx);
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -100,9 +97,6 @@ ErrorStatus I2C_write_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, u
 
 	LL_I2C_ClearFlag_STOP(I2Cx);
 	return SUCCESS;
-
-	exit_error:
-		return ERROR;
 }
 
 
@@ -113,9 +107,9 @@ ErrorStatus I2C_write_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, 
 	uint32_t counter = 0;
 	while(LL_I2C_IsActiveFlag_BUSY(I2Cx)==SET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000 ){//aproximate 150ms
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -127,10 +121,10 @@ ErrorStatus I2C_write_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, 
 	counter=0;
 	while(LL_I2C_IsActiveFlag_TXE(I2Cx)==RESET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000){//aproximate 150ms
 			LL_I2C_ClearFlag_TXE(I2Cx);
 			Error_Handler();
-			goto exit_error;
+			return ERROR;
 		}
 	}
 
@@ -145,9 +139,6 @@ ErrorStatus I2C_write_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, 
 	LL_I2C_ClearFlag_STOP(I2Cx);
 	return SUCCESS;
 
-	exit_error:
-		return ERROR;
-
 }
 
 uint8_t I2C_read_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint8_t addr_reg){
@@ -159,9 +150,9 @@ uint8_t I2C_read_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint8_
 	uint32_t counter = 0;
 	while(LL_I2C_IsActiveFlag_BUSY(I2Cx)==SET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000){//aproximate 150ms
 			Error_Handler();
-			goto exit_error;
+			return 0xFF;
 		}
 	}
 
@@ -173,10 +164,10 @@ uint8_t I2C_read_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint8_
 	counter=0;
 	while(LL_I2C_IsActiveFlag_TXE(I2Cx)==RESET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000){//aproximate 150ms
 			LL_I2C_ClearFlag_TXE(I2Cx);
 			Error_Handler();
-			goto exit_error;
+			return 0xFF;
 		}
 	}
 	while(LL_I2C_IsActiveFlag_TC(I2Cx)==RESET);
@@ -191,9 +182,6 @@ uint8_t I2C_read_reg_8bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint8_
 	LL_I2C_ClearFlag_STOP(I2Cx);
 
 	return read_data;
-
-	exit_error:
-		return 0xFF;
 }
 
 uint16_t I2C_read_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint8_t addr_reg){
@@ -205,9 +193,9 @@ uint16_t I2C_read_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 	uint32_t counter = 0;
 	while(LL_I2C_IsActiveFlag_BUSY(I2Cx)==SET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000 ){//aproximate 150ms
 			Error_Handler();
-			goto exit_error;
+			return 0xFF;
 		}
 	}
 
@@ -219,10 +207,10 @@ uint16_t I2C_read_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 	counter=0;
 	while(LL_I2C_IsActiveFlag_TXE(I2Cx)==RESET){
 		counter++;
-		if(counter==300000){//aproximate 150ms
+		if( counter == 25000 ){//aproximate 150ms
 			LL_I2C_ClearFlag_TXE(I2Cx);
 			Error_Handler();
-			goto exit_error;
+			return 0xFF;
 		}
 	}
 	while(LL_I2C_IsActiveFlag_TC(I2Cx)==RESET);
@@ -240,7 +228,4 @@ uint16_t I2C_read_reg_16bit_TMP75(I2C_TypeDef *I2Cx , uint8_t SlaveAddr_IC, uint
 	LL_I2C_ClearFlag_STOP(I2Cx);
 
 	return (read_data[0]<<8) | read_data[1];
-
-	exit_error:
-		return 0xFF;
 }
