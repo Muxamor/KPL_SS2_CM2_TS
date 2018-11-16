@@ -50,7 +50,6 @@ int main(void){
 
 	while(1){
 
-
 		ret1 = Data_receive_UART_9B (data_receive, 4, USART1);
 		LL_IWDG_ReloadCounter(IWDG);
 
