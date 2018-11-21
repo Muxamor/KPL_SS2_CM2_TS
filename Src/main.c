@@ -36,11 +36,17 @@ int main(void){
 
 		I2C_write_reg_8bit_TMP75(I2C1, add_TMP75, 0x01, 0x00); //Configuration registr addr=0x01 TMP75: OS R1R0 F1F0 POL TM SD
 													           // OS=0   R1R0 = 00 00   F1F0 = 00 00   POL = 00   TM = 00  SD = 00
-		//Write Tlow registr addr=0x02 Tlow=30 in 12bit resolution = 0x1E0
-		I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x02, (0x140 << 4) );
+		//Write Tlow registr addr=0x02 Tlow=25 in 12bit resolution = 0x1E0
+		I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x02, (0x190 << 4) );
 
-		//Write Thigh registr addr=0x03 Thigh=40 in 12bit resolution = 0x280
-		I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x03, (0x190 << 4) );
+		//Write Tlow registr addr=0x02 Tlow=20 in 12bit resolution = 0x1E0
+		//I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x02, (0x140 << 4) );
+
+		//Write Thigh registr addr=0x03 Thigh=30 in 12bit resolution = 0x280
+		I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x03, (0x1E0 << 4) );
+
+		//Write Thigh registr addr=0x03 Thigh=25 in 12bit resolution = 0x280
+		//I2C_write_reg_16bit_TMP75(I2C1, add_TMP75, 0x03, (0x190 << 4) );
 	}
 
 	uint16_t data_receive[4] = {0};
