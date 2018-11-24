@@ -59,7 +59,7 @@ ErrorStatus Data_transmite_UART_9B (uint16_t mass[], uint8_t size_parcel,  USART
 		}
 
 		if (i==0){
-			LL_USART_TransmitData9( USARTx, 0x100 | mass[i] );//set 9 bit for command (first) bite 
+			LL_USART_TransmitData9( USARTx, 0x100 | mass[i] );//set 9 bit for command (first) bite
 
 		}else{
 			LL_USART_TransmitData9( USARTx, mass[i] );
@@ -96,16 +96,16 @@ ErrorStatus  Data_receive_UART_9B (uint16_t receive_data[] , uint8_t size_rec_da
 	uint32_t counter=0;
 	uint8_t i=0;
 
-	/*if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
+	if(LL_USART_IsActiveFlag_ORE(USARTx) == 1){
 		LL_USART_ClearFlag_ORE(USARTx);
 		LL_USART_ReceiveData9(USARTx);
-	}*/
+	}
 
 	for( i=0; i<size_rec_data; i++ ){
 		counter=0;
 		while( LL_USART_IsActiveFlag_RXNE(USARTx) == RESET ){
 			counter++;
-			if(counter == 100000){
+			if(counter == 50000){
 				Error_Handler();
 				LL_USART_ClearFlag_ORE(USARTx);
 				return ERROR;
